@@ -1,6 +1,6 @@
 namespace db_schema;
 
-entity Customer {
+entity Products {
     key ID               : UUID;
         Name             : String;
         Description      : String;
