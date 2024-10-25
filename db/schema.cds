@@ -1,4 +1,4 @@
-namespace db_schema;
+namespace com.logali;
 
 entity Products {
     key ID               : UUID;
@@ -10,7 +10,7 @@ entity Products {
         Price            : Decimal(16, 2);
         Height           : Decimal(16, 2);
         Width            : Decimal(16, 2);
-        Deoth            : Decimal(16, 2);
+        Depth            : Decimal(16, 2);
         Quantity         : Decimal(16, 2);
 };
 
@@ -65,6 +65,7 @@ entity ProductReview {
 };
 
 entity SalesData {
-    key DeliveryDate : DateTime;
+    key ID           : UUID;
+        DeliveryDate : DateTime;
         Revenue      : Decimal(16, 2);
 }
