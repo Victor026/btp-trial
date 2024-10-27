@@ -2,7 +2,7 @@ namespace com.logali;
 
 entity Products {
     key ID               : UUID;
-        Name             : String;
+        Name             : String not null;
         Description      : String;
         ImageUrl         : String;
         ReleaseDate      : DateTime default $now;
@@ -69,3 +69,32 @@ entity SalesData {
         DeliveryDate : DateTime;
         Revenue      : Decimal(16, 2);
 }
+
+entity SelProducts  as select from Products;
+
+entity SelProducts1 as
+    select from Products {
+        *
+    };
+
+entity SelProducts2 as
+    select 
+        Name,
+        Price,
+        Quantity
+    from Products;
+    
+entity SelProducts3 as
+    select from Products
+    left join ProductReview
+        on Products.Name = ProductReview.Name
+    {
+        Rating,
+        Products.Name,
+        sum(Price) as TotalPrice
+    }
+    group by
+        Rating,
+        Products.Name
+    order by
+        Rating;
