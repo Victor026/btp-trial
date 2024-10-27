@@ -12,6 +12,9 @@ entity Products {
         Width            : Decimal(16, 2);
         Depth            : Decimal(16, 2);
         Quantity         : Decimal(16, 2);
+        Supplier_Id      : UUID;
+        ToSupplier       : Association to one Supplier
+                               on ToSupplier.ID = Supplier_Id;
 };
 
 entity Supplier {
@@ -78,12 +81,12 @@ entity SelProducts1 as
     };
 
 entity SelProducts2 as
-    select 
+    select
         Name,
         Price,
         Quantity
     from Products;
-    
+
 entity SelProducts3 as
     select from Products
     left join ProductReview
