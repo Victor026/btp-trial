@@ -5,7 +5,7 @@ entity Products {
         Name             : String;
         Description      : String;
         ImageUrl         : String;
-        ReleaseDate      : DateTime;
+        ReleaseDate      : DateTime default $now;
         DiscontinuedDate : DateTime;
         Price            : Decimal(16, 2);
         Height           : Decimal(16, 2);
