@@ -1,23 +1,34 @@
 namespace com.logali;
 
-entity Products {
-    key ID               : UUID;
-        Name             : String not null;
-        Description      : String;
-        ImageUrl         : String;
-        ReleaseDate      : DateTime default $now;
-        DiscontinuedDate : DateTime;
-        Price            : Decimal(16, 2);
-        Height           : Decimal(16, 2);
-        Width            : Decimal(16, 2);
-        Depth            : Decimal(16, 2);
-        Quantity         : Decimal(16, 2);
-        Supplier_Id      : UUID;
-        ToSupplier       : Association to one Supplier
-                               on ToSupplier.ID = Supplier_Id;
+using {
+    cuid,
+    managed
+} from '@sap/cds/common';
+
+
+entity Products : cuid, managed {
+    Name             : localized String not null;
+    Description      : localized String;
+    ImageUrl         : String;
+    ReleaseDate      : DateTime default $now;
+    DiscontinuedDate : DateTime;
+    Price            : Decimal(16, 2);
+    Height           : Decimal(16, 2);
+    Width            : Decimal(16, 2);
+    Depth            : Decimal(16, 2);
+    Quantity         : Decimal(16, 2);
+    Supplier         : Association to one Suppliers;
+    UnitOfMeasure    : Association to UnitOfMeasures;
+    Currency         : Association to Currencies;
+    DimensionsUnit   : Association to DimensionsUnits;
+    Category         : Association to Category;
+    SalesData        : Association to many SalesData
+                           on SalesData.Product = $self;
+    Reviews          : Association to many ProductReview
+                           on Reviews.Product = $self;
 };
 
-entity Supplier {
+entity Suppliers : managed {
     key ID         : UUID;
         Name       : String;
         Street     : String;
@@ -28,6 +39,8 @@ entity Supplier {
         Email      : String;
         Phone      : String;
         Fax        : String;
+        Product    : Association to many Products
+                         on Product.Supplier = $self;
 };
 
 entity Category {
@@ -61,16 +74,21 @@ entity Months {
         ShortDescription : String(3);
 };
 
-entity ProductReview {
-    key Name    : String;
+entity ProductReview : managed {
+    key ID      : UUID;
+        Name    : String;
         Rating  : Integer;
         Comment : String;
+        Product : Association to Products;
 };
 
-entity SalesData {
-    key ID           : UUID;
-        DeliveryDate : DateTime;
-        Revenue      : Decimal(16, 2);
+entity SalesData : managed {
+    key ID            : UUID;
+        DeliveryDate  : DateTime;
+        Revenue       : Decimal(16, 2);
+        Product       : Association to Products;
+        Currency      : Association to Currencies;
+        DeliveryMonth : Association to Months;
 }
 
 entity SelProducts  as select from Products;
