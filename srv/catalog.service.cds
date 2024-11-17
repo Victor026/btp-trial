@@ -1,7 +1,8 @@
 using {com.logali as db} from '../db/schema';
 
 service CatalogService {
-    entity Products as projection on db.Products;
+    // entity Products as projection on db.Products;
+    entity GetSuppliers as projection on db.Suppliers;
     entity Suppliers as projection on db.Suppliers;
     entity UnitOfMeasures as projection on db.UnitOfMeasures;
     entity Currency as projection on db.Currencies;
